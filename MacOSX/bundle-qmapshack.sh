@@ -19,8 +19,8 @@ function extendAppStructure {
 
 
 function copyAdditionalLibraries {
-    cp -v    $ROUTINO_LIB_LIB_DIR/libroutino.so $BUILD_BUNDLE_FRW_DIR
-    cp -v    $QUAZIP_LIB_LIB_DIR/libquazip.1.dylib $BUILD_BUNDLE_FRW_DIR
+    cp -v    $ROUTINO_LIB_LIB_DIR/libroutino* $BUILD_BUNDLE_FRW_DIR
+    cp -v    $QUAZIP_LIB_LIB_DIR/libquazip*.dylib $BUILD_BUNDLE_FRW_DIR
     cp -v    $GEOS_LIB_DIR/libgeos*.dylib $BUILD_BUNDLE_FRW_DIR
 
     cp -v    $DBUS_DIR/libdbus-1.3.dylib $BUILD_BUNDLE_FRW_DIR

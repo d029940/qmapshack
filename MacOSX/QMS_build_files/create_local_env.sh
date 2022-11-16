@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Create a local environment for all includes, libs, ... needed
+
+source $QMS_BUILD_FILES/env_build_vars.sh
+
+mkdir $LOCAL_ENV
+mkdir $LOCAL_ENV/bin
+mkdir $LOCAL_ENV/lib
+mkdir $LOCAL_ENV/include
+mkdir $LOCAL_ENV/share
+mkdir $LOCAL_ENV/xml
