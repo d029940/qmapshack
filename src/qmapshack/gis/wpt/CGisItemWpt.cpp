@@ -370,7 +370,7 @@ QString CGisItemWpt::getInfo(quint32 feature) const
         if(lastFound.isValid())
         {
             str += "<br/>" + tr("Last found: %1")
-                   .arg(IUnit::datetime2string(lastFound, false, wpt));
+                   .arg(IUnit::datetime2string(lastFound, IUnit::eTimeFormatLong, wpt));
         }
 
         const IGisProject* project = getParentProject();
@@ -380,7 +380,7 @@ QString CGisItemWpt::getInfo(quint32 feature) const
             if(projectDate.isValid())
             {
                 str += "<br/>" + tr("Project created: %1")
-                       .arg(IUnit::datetime2string(projectDate, false, wpt));
+                       .arg(IUnit::datetime2string(projectDate, IUnit::eTimeFormatLong, wpt));
             }
         }
     }
@@ -429,7 +429,7 @@ QString CGisItemWpt::getInfo(quint32 feature) const
             {
                 str += "<br/>\n";
             }
-            str += tr("Created: %1").arg(IUnit::datetime2string(wpt.time, false, QPointF(wpt.lon * DEG_TO_RAD, wpt.lat * DEG_TO_RAD)));
+            str += tr("Created: %1").arg(IUnit::datetime2string(wpt.time, IUnit::eTimeFormatLong, QPointF(wpt.lon * DEG_TO_RAD, wpt.lat * DEG_TO_RAD)));
         }
     }
 
@@ -598,6 +598,11 @@ void CGisItemWpt::addImage(const image_t& img)
     changed(tr("Add image"), "://icons/48x48/Image.png");
 }
 
+void CGisItemWpt::setTimestamp(const QDateTime& datetime)
+{
+    wpt.time = datetime;
+    changed(tr("Changed timestamp"), "://icons/48x48/Time.png");
+}
 
 bool CGisItemWpt::isCloseTo(const QPointF& pos)
 {
