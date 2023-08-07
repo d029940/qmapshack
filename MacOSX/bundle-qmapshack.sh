@@ -31,12 +31,17 @@ function copyAdditionalLibraries {
 
     if [ -z "$BREW_PACKAGE_BUILD"]; then
         # copy only if built as standalone package (QMS not as a brew pkg)
-        cp -v    $GDAL_DIR/lib/libgdal*.dylib $BUILD_BUNDLE_FRW_DIR
-        cp -v    $HOMEBREW_PREFIX/lib/libgeos*.dylib $BUILD_BUNDLE_EXTLIB_DIR
+        
+        # GDAL compiled from source
+        cp -v `brew --prefix openjpeg`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
+        cp -v `brew --prefix libkml`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
+        cp -v `brew --prefix minizip`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
+        cp -v `brew --prefix uriparser`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
+        cp -v $LOCAL_ENV/lib/libgdal*.dylib $BUILD_BUNDLE_FRW_DIR
 
-        cp -v    $HOMEBREW_PREFIX/lib/libproj*.dylib $BUILD_BUNDLE_FRW_DIR
-
-        cp -v    $HOMEBREW_PREFIX/lib/libdbus*.dylib $BUILD_BUNDLE_FRW_DIR
+        cp -v $HOMEBREW_PREFIX/lib/libgeos*.dylib $BUILD_BUNDLE_EXTLIB_DIR
+        cp -v $HOMEBREW_PREFIX/lib/libproj*.dylib $BUILD_BUNDLE_FRW_DIR
+        cp -v $HOMEBREW_PREFIX/lib/libdbus*.dylib $BUILD_BUNDLE_FRW_DIR
 
         cp -v -R $QT_DIR/lib/QtOpenGL.framework $BUILD_BUNDLE_FRW_DIR
         cp -v -R $QT_DIR/lib/QtQuick.framework $BUILD_BUNDLE_FRW_DIR
@@ -56,7 +61,7 @@ function copyAdditionalLibraries {
 
 
 function copyExternalFiles {
-    cp -v $GDAL_DIR/share/gdal/* $BUILD_BUNDLE_RES_GDAL_DIR
+    cp -v $LOCAL_ENV/share/gdal/* $BUILD_BUNDLE_RES_GDAL_DIR
 
     cp -v $HOMEBREW_PREFIX/share/proj/* $BUILD_BUNDLE_RES_PROJ_DIR
     rm $BUILD_BUNDLE_RES_PROJ_DIR/*.tif
@@ -76,7 +81,7 @@ function copyExternalHelpFiles_QMS {
 function copyExtTools {
     if [ -z "$BREW_PACKAGE_BUILD"]; then
         # copy only if built as standalone package (QMS not as a brew pkg)
-        cp -v $GDAL_DIR/bin/gdalbuildvrt            $BUILD_BUNDLE_RES_BIN_DIR
+        cp -v $LOCAL_ENV/bin/gdalbuildvrt            $BUILD_BUNDLE_RES_BIN_DIR
         cp -v $HOMEBREW_PREFIX/bin/proj             $BUILD_BUNDLE_RES_BIN_DIR
     fi
     cp -v $LOCAL_ENV/lib/planetsplitter         $BUILD_BUNDLE_RES_BIN_DIR

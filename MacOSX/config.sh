@@ -65,7 +65,7 @@ fi
 # build GDAL from source
 # if set with any value -> build GDAL from source
 # if an empty string -> take GDAL from homebrew
-export BUILD_GDAL=
+export BUILD_GDAL="x"
 
 # preparing to create a brew-package
 # if set with any value -> prepare for QMS brew package
@@ -84,10 +84,10 @@ while getopts ":bgx" opt; do
         export BREW_PACKAGE_BUILD="x"
         shift
         ;;
-    g)
-        export BUILD_GDAL="x"
-        shift
-        ;;
+    # g)
+    #     export BUILD_GDAL="x"
+    #     shift
+    #     ;;
     x)
         export XCODE_PROJECT="x"
         shift
@@ -105,7 +105,7 @@ echo $INFO
 echo "Parameters driving the build process:"
 echo "-------------------------------------"
 echo "Brew pkg built = ${BREW_PACKAGE_BUILD}"
-echo "Build GDAL from source = ${BUILD_GDAL}"
+#echo "Build GDAL from source = ${BUILD_GDAL}"
 echo "Xcode build = ${XCODE_PROJECT}"
 echo "-------------------------------------"
 echo ${NC}
@@ -127,11 +127,7 @@ export QT_DIR=$HOMEBREW_PREFIX/opt/qt5
 export Qt5_DIR=$QT_DIR/lib/cmake
 
 # GDAL
-if [ -z "${BUILD_GDAL}" ]; then
-    export GDAL_DIR=`brew --prefix gdal`
-else
-    export GDAL_DIR=$LOCAL_ENV
-fi
+export GDAL_RELEASE="3.7"
 
 cd $QMSDEVDIR
 

@@ -51,11 +51,9 @@ cd $QMSDEVDIR
 
 ######################################################################## 
 # build GDAL
-if [[ "$BUILD_GDAL" != "" ]]; then
-    cd $QMSDEVDIR
-    source $SRC_OSX_DIR/build-gdal.sh
-    cd $QMSDEVDIR
-fi
+cd $QMSDEVDIR
+source $SRC_OSX_DIR/build-gdal.sh
+cd $QMSDEVDIR
 
 ######################################################################## 
 # build Routino

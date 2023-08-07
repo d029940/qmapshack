@@ -7,7 +7,7 @@ This directory contains sub-directories while building:
 
 - routino/      (for building routino)
 - quazip/       (for building quazip)
-- gdal/         (optional - for building gdal)
+- gdal/         (for building gdal)
 - local/        (contains all the files and dirs installed by packages locally built)
 - qmapshack/    (QMS source from git)
 - build_qmapshack (directory were the build process of QMS itself happens)
@@ -17,7 +17,7 @@ This directory contains sub-directories while building:
 Local packages to be build are:
 - routino
 - quazip
-- gdal  (optional)
+- gdal
 
 All other packages are taken from homebrew package manager.
 The homebrew package manager is the packagemanger of choice.
@@ -30,8 +30,6 @@ Important script vars:
 Parameters to configure build:
 - XCODE_PROJECT           (optional: if set, create an XCode project instead of building QMS)
                           can be set with -x on commandline
-- BUILD_GDAL              (optional: if set, build GDAL instead of using the homebrew package)
-                          can be set with -g on commandline
 - BREW_PACKAGE_BUILD      if set creates QMS as an app relying on brew packages on runtime
                           homebrew packages are listed in install-brew-packages.sh
                           can be set with -b on commandline
@@ -66,7 +64,7 @@ Scripts for building partial steps in the build process
                             package files are also copied to local environment
 - build-quazip.sh: builds Quazip
 - build-routino.sh: builds Routino
-- build-gdal.sh: builds GDAL (currently not used since brew packages is used instead)
+- build-gdal.sh: builds GDAL
 - build-QMS.sh: compiles QMapShack
 - bundle-all.sh: The complete bundling process (calls (in)directly the other bundle scripts).
   Should be called, when everything is built but not bundled (build-all.sh includes this script). 

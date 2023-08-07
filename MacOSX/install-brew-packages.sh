@@ -32,9 +32,13 @@ brew install qt@5
 
 brew install dbus
 brew install proj
-if [[ "$BUILD_GDAL" == "" ]]; then
-    brew install gdal
-fi
+
+# Packages to build gdal
+brew install boost
+brew install openjpeg
+brew install libkml
+brew install minizip
+brew install uriparser
 brew install geos
 
 # # Used by routino
