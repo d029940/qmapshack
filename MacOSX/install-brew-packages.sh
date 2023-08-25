@@ -24,7 +24,7 @@ eval "$(brew shellenv)"
 # Attention: there will be installed additional packages due to dependencies
 # First get all currently installed brew packages to be able to find out which packahes will be installed
 # during QMS build
-echo "${ATTN}Fetching brew packages (cmake, qt@5, proj, gdal, geos and dependencies ...${NC}"
+echo "${ATTN}Fetching brew packages ${NC}"
 rm -f $QMSDEVDIR/brewlist*.txt
 brew list > $QMSDEVDIR/brewlist-`date +%s`.txt
 brew install cmake
