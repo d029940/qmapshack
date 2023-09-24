@@ -228,6 +228,11 @@ function adjustLinkQt {
         elif [[ "$P" == *$L* ]]; then
             echo "name_tool: $FREL > $PREL ($P)"
             sudo install_name_tool -change $P $PREL $F
+        elif [[ "$P" == *opt* ]]; then
+        # ??? Problem: Qt reference to libs do not contain the word homebrew since late 2023. Why?
+            echo "name_tool: $FREL > $PREL ($P)"
+            sudo install_name_tool -change $P $PREL $F
+            cp -L $HOMEBREW_PREFIX/lib/$LIB $BUILD_BUNDLE_FRW_DIR
         fi
     done
 }

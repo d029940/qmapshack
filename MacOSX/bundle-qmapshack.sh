@@ -32,12 +32,11 @@ function copyAdditionalLibraries {
     if [ -z "$BREW_PACKAGE_BUILD"]; then
         # copy only if built as standalone package (QMS not as a brew pkg)
         
-        # GDAL compiled from source
+        # GDAL compiled from source needs some libs from brew
         cp -v `brew --prefix openjpeg`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
         cp -v `brew --prefix libkml`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
         cp -v `brew --prefix minizip`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
         cp -v `brew --prefix uriparser`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
-        cp -v $LOCAL_ENV/lib/libgdal*.dylib $BUILD_BUNDLE_FRW_DIR
 
         cp -v $HOMEBREW_PREFIX/lib/libgeos*.dylib $BUILD_BUNDLE_EXTLIB_DIR
         cp -v $HOMEBREW_PREFIX/lib/libproj*.dylib $BUILD_BUNDLE_FRW_DIR
@@ -47,6 +46,8 @@ function copyAdditionalLibraries {
         cp -v -R $QT_DIR/lib/QtQuick.framework $BUILD_BUNDLE_FRW_DIR
         cp -v -R $QT_DIR/lib/QtQml.framework $BUILD_BUNDLE_FRW_DIR
     fi
+    # GDAL compiled from source
+    cp -v $LOCAL_ENV/lib/libgdal*.dylib $BUILD_BUNDLE_FRW_DIR
 
     # remove debug libraries
     for F in `find $BUILD_BUNDLE_FRW_DIR/Qt*.framework/* -type f -name '*_debug*'`
@@ -81,9 +82,9 @@ function copyExternalHelpFiles_QMS {
 function copyExtTools {
     if [ -z "$BREW_PACKAGE_BUILD"]; then
         # copy only if built as standalone package (QMS not as a brew pkg)
-        cp -v $LOCAL_ENV/bin/gdalbuildvrt            $BUILD_BUNDLE_RES_BIN_DIR
         cp -v $HOMEBREW_PREFIX/bin/proj             $BUILD_BUNDLE_RES_BIN_DIR
     fi
+    cp -v $LOCAL_ENV/bin/gdalbuildvrt           $BUILD_BUNDLE_RES_BIN_DIR
     cp -v $LOCAL_ENV/lib/planetsplitter         $BUILD_BUNDLE_RES_BIN_DIR
     # currently only used by QMapTool.
     cp -v $BUILD_BIN_DIR/qmt_rgb2pct            $BUILD_BUNDLE_RES_BIN_DIR
