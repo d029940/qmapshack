@@ -1,7 +1,8 @@
 #!/bin/sh
 
-DIR_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"  # absolute path to the dir of this script
-source $DIR_SCRIPT/config.sh   # check for important paramters
+source $QMSDEVDIR/qmapshack/MacOSX/config.sh   # check for important paramters
+echo "${ATTN}Building GDAL ...${NC}"
+echo "${ATTN}-----------------${NC}"
 
 ######################################################################## 
 # build GDAL (experimental: now using cmake)
@@ -13,8 +14,8 @@ source $DIR_SCRIPT/config.sh   # check for important paramters
     mkdir build
     cd ./build
     # Boost headers need to be in the include path
-    CPATH="${CPATH}:$(brew --prefix)/include"
-    cmake ..  -DCMAKE_PREFIX_PATH=$LOCAL_ENV -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$LOCAL_ENV -DGDAL_SET_INSTALL_RELATIVE_RPATH=ON -DGDAL_USE_INTERNAL_LIBS=ON -DGDAL_USE_EXTERNAL_LIBS=OFF
-    cmake --build . -j4
-    cmake --build . --target install
+    CPATH="$LOCAL_ENV/include:$PACKAGES_PATH/include:${CPATH}"
+    $PACKAGES_PATH/bin/cmake ..  -DCMAKE_PREFIX_PATH=$GDAL -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$GDAL -DGDAL_SET_INSTALL_RELATIVE_RPATH=ON -DGDAL_USE_INTERNAL_LIBS=ON -DGDAL_USE_EXTERNAL_LIBS=OFF -DCMAKE_DISABLE_FIND_PACKAGE_Arrow=ON -DOGR_BUILD_OPTIONAL_DRIVERS=OFF
+    $PACKAGES_PATH/bin/cmake --build . -j4
+    $PACKAGES_PATH/bin/cmake --build . --target install
     cd $QMSDEVDIR

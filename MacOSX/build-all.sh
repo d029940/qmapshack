@@ -14,8 +14,7 @@
 # 2a. QMapShack has been downloaded from git (git clone ...)
 ######################################################################## 
 
-export DIR_SCRIPT=$(cd `dirname $0` && pwd -P) # absolute path to the dir of this script
-source $DIR_SCRIPT/config.sh   # check for important paramters
+source $QMSDEVDIR/qmapshack/MacOSX/config.sh   # check for important paramters
 
 echo "${INFO}Are these parameters correct?${NC}"
 echo "${INFO}Is your build dir outside of the qmapshack source dir (cloned from GitHub)?${NC}"
@@ -38,28 +37,53 @@ fi
 source $SRC_OSX_DIR/create_local_env.sh
 
 ########################################################################
-# install homebrew (if needed) and packages 
+# install homebrew (if needed) and packages / macports
 cd $QMSDEVDIR
-source  $SRC_OSX_DIR/install-brew-packages.sh
+source  $SRC_OSX_DIR/install-packages.sh
+cd $QMSDEVDIR
+
+######################################################################## 
+# build otoolrecursive
+
+cd $QMSDEVDIR
+source $SRC_OSX_DIR/build-otoolrecursive.sh
 cd $QMSDEVDIR
 
 ######################################################################## 
 # build Quazip
-cd $QMSDEVDIR
-source $SRC_OSX_DIR/build-quazip.sh
-cd $QMSDEVDIR
+if [ -z "$MACPORTS_BUILD" ]; then
+    cd $QMSDEVDIR
+    source $SRC_OSX_DIR/build-quazip.sh
+    cd $QMSDEVDIR
+fi
+
+######################################################################## 
+# build Proj
+if [ -z "$MACPORTS_BUILD" ]; then
+   if [[ "$BUILD_PROJ" == "x" ]]; then
+        cd $QMSDEVDIR
+        source $SRC_OSX_DIR/build-proj.sh
+        cd $QMSDEVDIR
+    fi
+fi
 
 ######################################################################## 
 # build GDAL
-cd $QMSDEVDIR
-source $SRC_OSX_DIR/build-gdal.sh
-cd $QMSDEVDIR
+if [ -z "$MACPORTS_BUILD" ]; then
+   if [[ "$BUILD_GDAL" == "x" ]]; then
+        cd $QMSDEVDIR
+        source $SRC_OSX_DIR/build-gdal.sh
+        cd $QMSDEVDIR
+    fi
+fi
 
 ######################################################################## 
 # build Routino
-cd $QMSDEVDIR
-source $SRC_OSX_DIR/build-routino.sh
-cd $QMSDEVDIR
+if [ -z "$MACPORTS_BUILD" ]; then
+    cd $QMSDEVDIR
+    source $SRC_OSX_DIR/build-routino.sh
+    cd $QMSDEVDIR
+fi
 
 # build QMapShack
 cd $QMSDEVDIR

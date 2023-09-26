@@ -1,11 +1,11 @@
 #!/bin/sh
 
-DIR_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"  # absolute path to the dir of this script
-source $DIR_SCRIPT/config.sh   # check for important paramters
+source $QMSDEVDIR/qmapshack/MacOSX/config.sh   # check for important paramters
 
 ######################################################################## 
 # build Routino
-echo "${INFO}Building Routino ...${NC}"
+echo "${ATTN}Building Routino ...${NC}"
+echo "${ATTN}--------------------${NC}"
 echo "${INFO}At the end you will be prompted for admin password for adjusting routino libs${NC}"
 
 # Prerequisite
