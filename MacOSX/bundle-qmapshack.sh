@@ -26,10 +26,10 @@ function copyAdditionalLibraries {
       if [ -z "$MACPORTS_BUILD" ]; then
 
         echo "---building with homebrew---"
-        cp -v    $LOCAL_ENV/lib/libroutino* $BUILD_BUNDLE_FRW_DIR
+        cp -v    $ROUTINO_DEV_PATH/lib/libroutino* $BUILD_BUNDLE_FRW_DIR
         cp -v    $LOCAL_ENV/lib/libquazip*.dylib $BUILD_BUNDLE_FRW_DIR
 
-        if [ -z "$BREW_PACKAGE_BUILD"]; then
+        if [ -z "$BREW_PACKAGE_BUILD" ]; then
             # copy only if built as standalone package (QMS not as a brew pkg)
             echo "---build needs brew at runtime---"
 
@@ -45,7 +45,7 @@ function copyAdditionalLibraries {
                 cp -vP `brew --prefix geos`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
             fi
             
-            $LOCAL_ENV/bin/otoolrecursive -u $GDAL/lib/libgdal.dylib | xargs -I{} cp -v {} $BUILD_BUNDLE_FRW_DIR
+            $LOCAL_ENV/bin/otoolrecursive -u $BUILD_BUNDLE_FRW_DIR/libgdal.dylib | xargs -I{} cp -v {} $BUILD_BUNDLE_FRW_DIR
 
             if [[ "$BUILD_PROJ" == "x" ]]; then
                 cp -vP $LOCAL_ENV/lib/libproj*.dylib $BUILD_BUNDLE_FRW_DIR
@@ -59,7 +59,7 @@ function copyAdditionalLibraries {
             cp -v -R $QT_DEV_PATH/lib/QtQml.framework $BUILD_BUNDLE_FRW_DIR
         fi
         if [[ "$BUILD_GDAL" == "x" ]]; then
-            cp -vL $LOCAL_ENV/lib/libgdal*.dylib $BUILD_BUNDLE_FRW_DIR
+            cp -vL $GDAL/lib/libgdal*.dylib $BUILD_BUNDLE_FRW_DIR
         else
             cp -vP `brew --prefix gdal`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
         fi
@@ -69,7 +69,7 @@ function copyAdditionalLibraries {
         echo "---copy additional libs into bundle ------------------"
         port contents routino | grep $PACKAGES_PATH/lib/libgroutino | xargs -I{} cp -vP {} $BUILD_BUNDLE_FRW_DIR
         port contents quazip1 | grep $PACKAGES_PATH/lib/libquazip1 | xargs -I{} cp -vP {} $BUILD_BUNDLE_FRW_DIR
-        port contents gdal | grep $PACKAGES_PATH/lib/libgdal | xargs -I{} cp -vP {} $BUILD_BUNDLE_FRW_DIR
+        port contents gdal | grep $GDAL/lib/libgdal | xargs -I{} cp -vP {} $BUILD_BUNDLE_FRW_DIR
 
         cp -v -R $QT_DEV_PATH/lib/QtOpenGL.framework $BUILD_BUNDLE_FRW_DIR
         cp -v -R $QT_DEV_PATH/lib/QtQuick.framework $BUILD_BUNDLE_FRW_DIR
@@ -99,15 +99,18 @@ function copyExternalFiles {
             cp -vP $PACKAGES_PATH/share/proj/* $BUILD_BUNDLE_RES_PROJ_DIR
         fi
         
-        cp -v $LOCAL_ENV/xml/profiles.xml $BUILD_BUNDLE_RES_ROUTINO_DIR
-        cp -v $LOCAL_ENV/xml/translations.xml $BUILD_BUNDLE_RES_ROUTINO_DIR
-        cp -v $LOCAL_ENV/xml/tagging.xml $BUILD_BUNDLE_RES_ROUTINO_DIR    
+        cp -v $ROUTINO_DEV_PATH/xml/profiles.xml $BUILD_BUNDLE_RES_ROUTINO_DIR
+        cp -v $ROUTINO_DEV_PATH/xml/translations.xml $BUILD_BUNDLE_RES_ROUTINO_DIR
+        cp -v $ROUTINO_DEV_PATH/xml/tagging.xml $BUILD_BUNDLE_RES_ROUTINO_DIR  
     else
         echo "---building with macports---"
 
         port contents gdal | grep $PACKAGES_PATH/share/gdal/ | xargs -I{} cp -vP {} $BUILD_BUNDLE_RES_GDAL_DIR
         port contents proj9 | grep $PACKAGES_PATH/lib/proj9/share/proj/ | xargs -I{} cp -vP {} $BUILD_BUNDLE_RES_PROJ_DIR
-        port contents routino | grep $PACKAGES_PATH/share/routino/ | xargs -I{} cp -vP {} $BUILD_BUNDLE_RES_ROUTINO_DIR 
+        # port contents routino | grep $PACKAGES_PATH/share/routino/ | xargs -I{} cp -vP {} $BUILD_BUNDLE_RES_ROUTINO_DIR 
+        cp -v $ROUTINO_DEV_PATH/xml/profiles.xml $BUILD_BUNDLE_RES_ROUTINO_DIR
+        cp -v $ROUTINO_DEV_PATH/xml/translations.xml $BUILD_BUNDLE_RES_ROUTINO_DIR
+        cp -v $ROUTINO_DEV_PATH/xml/tagging.xml $BUILD_BUNDLE_RES_ROUTINO_DIR  
     fi
 
     # Too many files copied from proj --> delete them
@@ -125,7 +128,7 @@ function copyExtTools {
     if [ -z "$MACPORTS_BUILD" ]; then
         echo "---building with homebrew---"
  
-        if [ -z "$BREW_PACKAGE_BUILD"]; then
+        if [ -z "$BREW_PACKAGE_BUILD" ]; then
             # copy only if built as standalone package (QMS not as a brew pkg)
             if [[ "$BUILD_PROJ" == "x" ]]; then
                 cp -v $LOCAL_ENV/bin/proj             $BUILD_BUNDLE_RES_BIN_DIR
@@ -133,13 +136,13 @@ function copyExtTools {
                 cp -v $PACKAGES_PATH/bin/proj             $BUILD_BUNDLE_RES_BIN_DIR
             fi
         fi
-        cp -v $LOCAL_ENV/bin/gdalbuildvrt           $BUILD_BUNDLE_RES_BIN_DIR
-        cp -v $LOCAL_ENV/lib/planetsplitter         $BUILD_BUNDLE_RES_BIN_DIR
+        cp -v $GDAL/bin/gdalbuildvrt                $BUILD_BUNDLE_RES_BIN_DIR
+        cp -v $ROUTINO_DEV_PATH/bin/planetsplitter  $BUILD_BUNDLE_RES_BIN_DIR
       else
         echo "---building with macports---"
         cp -v $PACKAGES_PATH/lib/proj9/bin/proj          $BUILD_BUNDLE_RES_BIN_DIR
         cp -v $PACKAGES_PATH/bin/gdalbuildvrt            $BUILD_BUNDLE_RES_BIN_DIR
-        cp -v $PACKAGES_PATH/lib/planetsplitter          $BUILD_BUNDLE_RES_BIN_DIR
+        cp -v $ROUTINO_DEV_PATH/bin/planetsplitter       $BUILD_BUNDLE_RES_BIN_DIR
     fi
    
     # currently only used by QMapTool.

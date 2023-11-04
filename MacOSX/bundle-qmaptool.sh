@@ -34,7 +34,7 @@ function copyAdditionalLibraries {
     if [ -z "$MACPORTS_BUILD" ]; then
         echo "---building with homebrew---"
 
-        if [ -z "$BREW_PACKAGE_BUILD"]; then
+        if [ -z "$BREW_PACKAGE_BUILD" ]; then
 
             # copy only if built as standalone package (QMS not as a brew pkg)
             echo "---copy additional libs into bundle ------------------"
@@ -49,6 +49,7 @@ function copyAdditionalLibraries {
                 cp -vP `brew --prefix gdal`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
                 cp -vP `brew --prefix openexr`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
                 cp -vP `brew --prefix geos`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
+
             fi
             $LOCAL_ENV/bin/otoolrecursive -u $GDAL/lib/libgdal.dylib | xargs -I{} cp -vf {} $BUILD_BUNDLE_FRW_DIR
 
@@ -59,8 +60,6 @@ function copyAdditionalLibraries {
             echo "---build needs brew at runtime---"
             if [[ "$BUILD_GDAL" == "x" ]]; then
                 cp -v $GDAL/lib/libgdal*.dylib $BUILD_BUNDLE_FRW_DIR
-            else
-                cp -vP `brew --prefix gdal`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
             fi
         fi
     else 
@@ -87,12 +86,13 @@ function copyAdditionalLibraries {
 function copyExtTools {
 
     # copy only if built as standalone package (QMS does not need homebrew at runtime)
-    echo "---copy additional tools into bundle ------------------"
-    cp -v $GDAL/bin/gdalbuildvrt            $BUILD_BUNDLE_RES_BIN_DIR
-    cp -v $GDAL/bin/gdaladdo                $BUILD_BUNDLE_RES_BIN_DIR
-    cp -v $GDAL/bin/gdal_translate          $BUILD_BUNDLE_RES_BIN_DIR
-    cp -v $GDAL/bin/gdalwarp                $BUILD_BUNDLE_RES_BIN_DIR
-
+    # if [ -z "$BREW_PACKAGE_BUILD" ]; then
+        echo "---copy additional tools into bundle ------------------"
+        cp -v $GDAL/bin/gdalbuildvrt            $BUILD_BUNDLE_RES_BIN_DIR
+        cp -v $GDAL/bin/gdaladdo                $BUILD_BUNDLE_RES_BIN_DIR
+        cp -v $GDAL/bin/gdal_translate          $BUILD_BUNDLE_RES_BIN_DIR
+        cp -v $GDAL/bin/gdalwarp                $BUILD_BUNDLE_RES_BIN_DIR
+    # fi
      # currently only used by QMapTool.
     cp -v $BUILD_BIN_DIR/qmt_rgb2pct            $BUILD_BUNDLE_RES_BIN_DIR
     cp -v $BUILD_BIN_DIR/qmt_map2jnx            $BUILD_BUNDLE_RES_BIN_DIR

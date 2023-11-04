@@ -79,11 +79,9 @@ fi
 
 ######################################################################## 
 # build Routino
-if [ -z "$MACPORTS_BUILD" ]; then
-    cd $QMSDEVDIR
-    source $SRC_OSX_DIR/build-routino.sh
-    cd $QMSDEVDIR
-fi
+cd $QMSDEVDIR
+source $SRC_OSX_DIR/build-routino.sh
+cd $QMSDEVDIR
 
 # build QMapShack
 cd $QMSDEVDIR

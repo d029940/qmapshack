@@ -189,7 +189,7 @@ function adjustLinking {
     for F in `find $BUILD_BUNDLE_PLUGIN_DIR -type f -type f \( -iname "*.dylib" -o -iname "*.so" \)`
     do
         adjustLinkQt $F "libq"
-        adjustLinkQt $F "$PACKAGES_PATH/"
+        # adjustLinkQt $F "$PACKAGES_PATH/"
     done
 
     for F in `find $BUILD_BUNDLE_FRW_DIR/Qt*.framework/Versions/5 -type f -maxdepth 1`
@@ -203,7 +203,9 @@ function adjustLinking {
         if [ -z "$MACPORTS_BUILD" ]; then
             adjustLinkQt $F "libroutino"
         fi
-        adjustLinkQt $F "$PACKAGES_PATH/"
+        # echo "--- Adjusting libs with references to $PACKAGES_PATH ---"
+        adjustLinkDyLib $F
+        
     done
 
     adjustLinkQt $BUILD_BUNDLE_APP_FILE "Qt"
@@ -221,6 +223,30 @@ function adjustLinking {
     fi
 }
 
+function adjustLinkDyLib {
+    echo ">>> Adjusting dylibs of `basename $1`"
+    # adjust all dylibs in Frameworks with references to package manager
+    F=$1 # file
+    
+    # exclude symlinks
+    if [[ -L "$F" ]]; then
+            return
+    fi
+
+    for P in `otool -L $F | awk '{print $1}'`
+    do
+        # $P = dylib referenced by $F
+        # get filename of path
+        LIB=`basename $P`
+        
+        # only for references to package, i.e. check if $P starts with $PACKAGES_PATH
+         if [[ "$P" =~ ^"$PACKAGES_PATH"  ]]; then
+            PREL="@executable_path/../Frameworks/$LIB"
+            echo "Changing $LIB to reference $PREL"
+            sudo install_name_tool -change $P $PREL $F
+         fi
+    done
+}
 
 function adjustLinkQt {
     F=$1 # file

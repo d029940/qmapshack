@@ -42,6 +42,7 @@ if [ -z "$MACPORTS_BUILD" ]; then
         brew install proj
     fi
 
+    brew install geos
     # Packages to build gdal
     if [[ "$BUILD_GDAL" == "x" ]]; then
         brew install boost
@@ -51,7 +52,6 @@ if [ -z "$MACPORTS_BUILD" ]; then
         brew install uriparser
     else
         brew install gdal
-        brew install geos
     fi
 
 
@@ -69,17 +69,19 @@ else
     # install mac ports
     # sudo port -v selfupdate
     # sudo port upgrade outdated
+     # qt5
     sudo port install qt5
-    # sudo port install qt5-qtwebkit
     sudo port install qt5-qtwebengine
     # if quazip is not compiled from source
     sudo port install quazip1
     # if routino is not compiled from source
     sudo port install routino
     # if gdal is not compiled from source
-    sudo port install gdal
-
+    sudo port install zstd
     sudo port install jpeg
+    sudo port install tiff
+    sudo paort install proj
+    sudo port install gdal
 
     sudo port install cmake
 

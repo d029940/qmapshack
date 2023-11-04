@@ -81,6 +81,15 @@ export BREW_PACKAGE_BUILD=
 # if an empty string -> compile, build and nundle w/o XCode
 export XCODE_PROJECT=
 
+
+# GDAL: if set to "x", it will be built from source. 
+# If not set (i.e. blank), GDAL will be taken from the package manager
+export BUILD_GDAL=
+# PROJ (still experimental): if set to "x", it will be built from source. 
+# If not set (i.e. blank), PROJ will be taken from the package manager
+export BUILD_PROJ=
+
+
 # checking arguments: intested in -x (Xcode), -m (MacPorts), -b (Homebrew)
 while getopts ":bmx" opt; do
   case $opt in
@@ -137,10 +146,6 @@ export BUILD_RELEASE_DIR=$QMSDEVDIR/release # app bundles will be put
 export QMS_SRC_DIR=$QMSDEVDIR/qmapshack # QMS source dir (clone from GitHub)
 export SRC_OSX_DIR=$QMSDEVDIR/qmapshack/MacOSX # Sources only for MacOS
 
-# Should GDAL, PROJ built from source? (set to "x" if it should be, otherwise leave it blank)
-export BUILD_GDAL=
-export BUILD_PROJ=
-
 # QT5
 if [[ "$MACPORTS_BUILD" == "x" ]]; then
     export QT_DEV_PATH=$PACKAGES_PATH/libexec/qt5
@@ -173,7 +178,7 @@ else
 fi
 
 # env vars for building QMS
-OSX_DEPLOYMENT_TARGET=11.0  # MacOS build target
+export OSX_DEPLOYMENT_TARGET=11.0  # MacOS build target
 
 ########################################################################
 # print all config variables
