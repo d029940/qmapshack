@@ -24,6 +24,8 @@ echo "${ATTN}-----------------${NC}"
     # LDFLAGS="-L$PACKAGES_PATH/opt/expat/lib"
     # CPPFLAGS="-I$PACKAGES_PATH/opt/expat/include"
 
+    GDAL=$LOCAL_ENV
+
     $PACKAGES_PATH/bin/cmake .. -DCMAKE_PREFIX_PATH=$GDAL \
                                 -DCMAKE_BUILD_TYPE=Release \
                                 -DCMAKE_INSTALL_PREFIX=$GDAL \

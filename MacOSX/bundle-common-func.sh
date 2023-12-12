@@ -241,6 +241,7 @@ function adjustLinkDyLib {
         
         # only for references to package, i.e. check if $P starts with $PACKAGES_PATH
          if [[ "$P" =~ ^"$PACKAGES_PATH"  ]]; then
+            #TODO Adjust references like /opt/homebrew/opt/...: cp -v $P $BUILD_BUNDLE_FRW_DIR
             PREL="@executable_path/../Frameworks/$LIB"
             echo "Changing $LIB to reference $PREL"
             sudo install_name_tool -change $P $PREL $F

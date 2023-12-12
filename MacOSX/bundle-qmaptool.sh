@@ -44,6 +44,7 @@ function copyAdditionalLibraries {
                 cp -vP `brew --prefix libkml`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
                 cp -vP `brew --prefix minizip`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
                 cp -vP `brew --prefix uriparser`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
+                cp -vP `brew --prefix geos`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
                 cp -vP $LOCAL_ENV/lib/libgdal*.dylib $BUILD_BUNDLE_FRW_DIR
             else
                 cp -vP `brew --prefix gdal`/lib/lib*.dylib $BUILD_BUNDLE_FRW_DIR
@@ -112,6 +113,13 @@ function removeDuplicatedQtLibs {
 
 
 if [[ "$1" == "" ]]; then
+
+    if [ ! -z `brew --prefix qt` ]; then
+        echo "unlinking qt and linking qt@5"
+        brew unlink qt
+        brew link qt@5
+    fi
+
     echo "---extract version -----------------"
     extractVersion
     readRevisionHash
@@ -156,4 +164,11 @@ if [[ "$1" == "" ]]; then
     # codesign -s <Apple Dev Account> --force --deep --sign - $BUILD_RELEASE_DIR/QMapTool.app
     codesign -s manfred.kern@gmail.com --force --deep --sign - $BUILD_RELEASE_DIR/QMapTool.app
     # codesign --force --deep --sign - $BUILD_RELEASE_DIR/QMapTool.app
+
+    if [ ! -z `brew --prefix qt` ]; then
+        echo "unlinking qt@5 and linking qt"
+        brew unlink qt@5
+        brew link qt
+    fi
+
 fi
