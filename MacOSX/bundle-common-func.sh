@@ -241,11 +241,33 @@ function adjustLinkDyLib {
         
         # only for references to package, i.e. check if $P starts with $PACKAGES_PATH
          if [[ "$P" =~ ^"$PACKAGES_PATH"  ]]; then
-            #TODO Adjust references like /opt/homebrew/opt/...: cp -v $P $BUILD_BUNDLE_FRW_DIR
             PREL="@executable_path/../Frameworks/$LIB"
             echo "Changing $LIB to reference $PREL"
             sudo install_name_tool -change $P $PREL $F
          fi
+    done
+}
+
+function adjustLinkExtTool {
+    # $1 = filename of exttool
+    echo ">>> Adjusting ext Tools of $1"
+    for P in `otoolrecursive $1`
+    do
+
+        LIB=${P##*/}    
+        LIB=${LIB%%:}
+        PREL="@executable_path/../Frameworks/$LIB"
+
+        if [[ "$P" == *".framework"* ]]; then
+            LIB_VERSION=Versions/5
+            LIB=$LIB.framework/$LIB_VERSION/$LIB
+            PREL="@executable_path/../Frameworks/$LIB"
+        else
+             echo "cp -v $P ../Frameworks/"
+        fi
+   
+        echo "install_name_tool -change $P $PREL `basename $1`"
+        install_name_tool -change $P $PREL $1
     done
 }
 
@@ -314,7 +336,7 @@ function adjustLinkingExtTools {
     do
         echo "F    = $F"
         install_name_tool -add_rpath @executable_path/../Frameworks $F
-        adjustLinkQt $F "$PACKAGES_PATH/"
+        adjustLinkExtTool $F
     done
     echo "--------------------------------------------"
 }

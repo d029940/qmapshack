@@ -84,7 +84,7 @@ export XCODE_PROJECT=
 
 # GDAL: if set to "x", it will be built from source. 
 # If not set (i.e. blank), GDAL will be taken from the package manager
-export BUILD_GDAL="x"
+export BUILD_GDAL=
 # PROJ (still experimental): if set to "x", it will be built from source. 
 # If not set (i.e. blank), PROJ will be taken from the package manager
 export BUILD_PROJ=
@@ -179,6 +179,9 @@ fi
 
 # env vars for building QMS
 export OSX_DEPLOYMENT_TARGET=12.0  # MacOS build target
+
+# prefer local development environment:
+export PATH=$LOCAL_ENV/bin:$PATH
 
 ########################################################################
 # print all config variables
