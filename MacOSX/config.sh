@@ -84,7 +84,7 @@ export XCODE_PROJECT=
 
 # GDAL: if set to "x", it will be built from source. 
 # If not set (i.e. blank), GDAL will be taken from the package manager
-export BUILD_GDAL=
+export BUILD_GDAL="x"
 # PROJ (still experimental): if set to "x", it will be built from source. 
 # If not set (i.e. blank), PROJ will be taken from the package manager
 export BUILD_PROJ=
@@ -163,7 +163,7 @@ if [[ "$MACPORTS_BUILD" == "x" ]]; then
 else
     # GDAL, ROUTINO, QUAZIP, PROJ are compiled from source
     if [[ "$BUILD_GDAL" == "x" ]]; then
-        export GDAL_RELEASE="3.7"
+        export GDAL_RELEASE="3.8"
         export GDAL=$LOCAL_ENV
     else
         export GDAL=$PACKAGES_PATH
